@@ -15,30 +15,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package ru.mystamps.web.tests.cases;
+package ru.mystamps.web.it.step;
 
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import cucumber.api.java.en.Given;
 
-import ru.mystamps.web.tests.page.IndexSitePage;
-
-import static ru.mystamps.web.tests.TranslationUtils.tr;
-
-public class WhenAnonymousUserAtIndexPage extends WhenAnyUserAtAnyPage<IndexSitePage> {
+public class CommonSteps {
 	
-	public WhenAnonymousUserAtIndexPage() {
-		super(IndexSitePage.class);
-		hasTitle(tr("t_index_title"));
-	}
-	
-	@BeforeClass
-	public void setUp() {
-		page.open();
-	}
-	
-	@Test(groups = "std")
-	public void shouldHaveStandardStructure() {
-		checkStandardStructure();
+	@Given("^As anonymous user$")
+	public void becomeAnonymousUser() {
+		// TODO: do logout if we're already authenticated
 	}
 	
 }
