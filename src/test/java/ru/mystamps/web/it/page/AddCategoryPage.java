@@ -15,34 +15,39 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-package ru.mystamps.web.tests.cases;
+package ru.mystamps.web.it.page;
 
-import java.net.HttpURLConnection;
+import org.apache.commons.lang3.StringUtils;
 
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+import lombok.RequiredArgsConstructor;
 
 import ru.mystamps.web.Url;
-import ru.mystamps.web.tests.page.UnauthorizedErrorPage;
 
-import static ru.mystamps.web.tests.TranslationUtils.tr;
-
-public class WhenAnonymousUserAddCategory extends WhenAnyUserAtAnyPage<UnauthorizedErrorPage> {
+@RequiredArgsConstructor
+public class AddCategoryPage {
 	
-	public WhenAnonymousUserAddCategory() {
-		super(UnauthorizedErrorPage.class);
-		hasTitleWithoutStandardPrefix(tr("t_401_title"));
-		hasResponseServerCode(HttpURLConnection.HTTP_UNAUTHORIZED);
+	private final WebDriver driver;
+	
+	@FindBy(id = "error-msg")
+	private WebElement errorMessage;
+	
+	@FindBy(id = "error-code")
+	private WebElement errorCode;
+	
+	public void open() {
+		driver.navigate().to(Url.SITE + Url.ADD_CATEGORY_PAGE);
 	}
 	
-	@BeforeClass
-	public void setUp() {
-		page.open(Url.ADD_CATEGORY_PAGE);
+	public String getErrorMessage() {
+		return StringUtils.replace(errorMessage.getText(), "\n", " ");
 	}
 	
-	@Test(groups = "std")
-	public void shouldHaveStandardStructure() {
-		checkStandardStructure();
+	public String getErrorCode() {
+		return errorCode.getText();
 	}
 	
 }
